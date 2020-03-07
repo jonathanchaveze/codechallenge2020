@@ -8,10 +8,6 @@
     <ProjectReference Include="..\..\Bot\Jobsity.CodeChallenge.Bot\Jobsity.CodeChallenge.Bot.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 
 
 </Project>
