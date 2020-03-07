@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. WebApp", "1. WebApp", "{586A911E-8FBE-4435-AC1F-64621723A6D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Testing", "3. Testing", "{FACE1F85-3C4D-410F-BFF5-C0BB2335F4C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobsity.CodeChallenge.WebApp", "WebApp\Jobsity.CodeChallenge.WebApp\Jobsity.CodeChallenge.WebApp.csproj", "{1C5E78A7-DD62-42AF-BD62-660E7CED36E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobsity.CodeChallenge.Testing", "Testing\Jobsity.CodeChallenge.Testing\Jobsity.CodeChallenge.Testing.csproj", "{7BA91EEB-45E4-4ECF-A113-17EE92C0C687}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Bot", "2. Bot", "{9CE67F80-3A78-40BE-BCFC-D85DF00E600A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jobsity.CodeChallenge.Bot", "Bot\Jobsity.CodeChallenge.Bot\Jobsity.CodeChallenge.Bot.csproj", "{C5C8C72C-F36E-4659-A170-A1E76CAC69EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1C5E78A7-DD62-42AF-BD62-660E7CED36E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C5E78A7-DD62-42AF-BD62-660E7CED36E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C5E78A7-DD62-42AF-BD62-660E7CED36E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C5E78A7-DD62-42AF-BD62-660E7CED36E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BA91EEB-45E4-4ECF-A113-17EE92C0C687}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BA91EEB-45E4-4ECF-A113-17EE92C0C687}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BA91EEB-45E4-4ECF-A113-17EE92C0C687}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BA91EEB-45E4-4ECF-A113-17EE92C0C687}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5C8C72C-F36E-4659-A170-A1E76CAC69EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5C8C72C-F36E-4659-A170-A1E76CAC69EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5C8C72C-F36E-4659-A170-A1E76CAC69EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5C8C72C-F36E-4659-A170-A1E76CAC69EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1C5E78A7-DD62-42AF-BD62-660E7CED36E4} = {586A911E-8FBE-4435-AC1F-64621723A6D9}
+		{7BA91EEB-45E4-4ECF-A113-17EE92C0C687} = {FACE1F85-3C4D-410F-BFF5-C0BB2335F4C5}
+		{C5C8C72C-F36E-4659-A170-A1E76CAC69EB} = {9CE67F80-3A78-40BE-BCFC-D85DF00E600A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {231E4850-88ED-4936-B0A2-20D90E58635E}
+	EndGlobalSection
+EndGlobal
