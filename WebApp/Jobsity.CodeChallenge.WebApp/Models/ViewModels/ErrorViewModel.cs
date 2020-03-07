@@ -1,6 +1,6 @@
 using System;
 
-namespace Jobsity.CodeChallenge.WebApp.Models
+namespace Jobsity.CodeChallenge.WebApp.Models.ViewModels
 {
     public class ErrorViewModel
     {
