@@ -34,6 +34,10 @@ namespace Jobsity.CodeChallenge.Bot.Models
                 {
                     request.Command = command;
                 }
+                else
+                {
+                    request.Command = BotCommand.Unknown;
+                }
 
                 request.Parameter = parameterText;
             }
@@ -67,6 +71,9 @@ namespace Jobsity.CodeChallenge.Bot.Models
                     {
                         response.ResultText = e.Message;
                     }
+                    break;
+                case BotCommand.Unknown:
+                    response.ResultText = $"Command not recognized. Type /help to view the available commands.";
                     break;
             }
 

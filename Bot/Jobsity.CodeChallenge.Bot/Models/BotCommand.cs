@@ -5,9 +5,10 @@ namespace Jobsity.CodeChallenge.Bot.Models
     [Flags]
     public enum BotCommand
     {
-        Unknown = 0,
-        SayHi = 1,
-        Help = 2,
-        Stock = 4
+        NotCommand = 0,
+        Unknown = 1,
+        SayHi = 2,
+        Help = 4,
+        Stock = 8
     }
 }
