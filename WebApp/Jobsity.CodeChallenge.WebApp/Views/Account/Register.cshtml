@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+@model RegisterViewModel
+
+<h1>Register a new account</h1>
+
+<p>Please fill the form below to get a new account.</p>
+
+<div asp-validation-summary="All"></div>
+
+<form method="post" asp-action="register">
+
+    <div class="form-group">
+        <label asp-for="FirstName"></label>
+        <div><input asp-for="FirstName" class="form-control" /></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastName"></label>
+        <div><input asp-for="LastName" class="form-control" /></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <div><input asp-for="Email" class="form-control" /></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <div><input asp-for="Password" class="form-control" /></div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <div><input asp-for="ConfirmPassword" class="form-control" /></div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary">Sign up</button>
+    </div>
+
+    <div class="form-group">
+        Do you already have an account? <a asp-action="login">Sign in here</a>
+    </div>
+
+</form>

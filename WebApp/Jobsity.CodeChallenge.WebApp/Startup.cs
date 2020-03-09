@@ -1,13 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Jobsity.CodeChallenge.WebApp.Models;
+using Jobsity.CodeChallenge.WebApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
+using System;
 
 namespace Jobsity.CodeChallenge.WebApp
 {
@@ -23,7 +24,80 @@ namespace Jobsity.CodeChallenge.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region MVC Configuration
+
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddControllersWithViews();
+
+            #endregion
+
+            #region Persistance Service Configuration
+
+            var databaseUrl = Configuration["DATABASE_URL"];
+
+            if (string.IsNullOrEmpty(databaseUrl))
+            {
+                Console.WriteLine("DATABASE_URL is not specified in SecretStore.");
+                System.Environment.Exit(-1);
+            }
+
+            var databaseUri = new Uri(databaseUrl);
+            var userInfo = databaseUri.UserInfo.Split(':');
+
+            var builder = new NpgsqlConnectionStringBuilder
+            {
+                Host = databaseUri.Host,
+                Port = Convert.ToInt32(databaseUri.Port),
+                Database = databaseUri.LocalPath.TrimStart('/'),
+                Username = userInfo[0],
+                Password = userInfo[1]
+            };
+
+            services.AddDbContext<ChatPersistance>(o => o.UseNpgsql(builder.ConnectionString));
+
+            #endregion
+
+            #region Identity Configuration
+
+            services.AddIdentity<ChatUser, IdentityRole>()
+                    .AddEntityFrameworkStores<ChatPersistance>()
+                    .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 0;
+
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+
+                // SignIn settings.
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+            });
+
+            #endregion
+
+            #region Profile Picture Service Configuration
+
+            services.AddSingleton<ProfilePictureService, ProfilePictureService>(o =>
+            {
+                return new ProfilePictureService();
+            });
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,14 +117,12 @@ namespace Jobsity.CodeChallenge.WebApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }
