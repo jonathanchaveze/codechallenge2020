@@ -7,13 +7,12 @@ namespace Jobsity.CodeChallenge.Testing
     public class BotTesting
     {
         private readonly string _stockEndpoint = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv";
-        private readonly string _botName = "Misti";
-        private readonly string _profilePic = string.Empty;
-        private ChatBot _bot;
+        private readonly string _botUserId = string.Empty;
+        private readonly ChatBot _bot;
 
         public BotTesting()
         {
-            _bot = new ChatBot(_botName, _profilePic, _stockEndpoint);
+            _bot = new ChatBot(_botUserId, _stockEndpoint);
         }
 
         [TestMethod]

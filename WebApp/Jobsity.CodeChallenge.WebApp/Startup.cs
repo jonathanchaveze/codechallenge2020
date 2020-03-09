@@ -108,13 +108,12 @@ namespace Jobsity.CodeChallenge.WebApp
 
             #region Bot Configuration
 
-            var botFullName = Configuration["ChatBot:FullName"];
-            var botProfilePic = Configuration["ChatBot:ProfilePic"];
+            var botUserId = Configuration["ChatBot:UserId"];
             var stockServiceEndpoint = Configuration["ChatBot:StockServiceEndpoint"];
 
             services.AddSingleton<ChatBot, ChatBot>(o =>
             {
-                return new ChatBot(botFullName, botProfilePic, stockServiceEndpoint);
+                return new ChatBot(botUserId, stockServiceEndpoint);
             });
 
             #endregion

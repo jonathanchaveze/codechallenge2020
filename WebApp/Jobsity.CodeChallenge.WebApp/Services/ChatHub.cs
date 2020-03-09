@@ -18,6 +18,23 @@ namespace Jobsity.CodeChallenge.WebApp.Services
         {
             _chatPersistance = chatPersistance;
             _chatBot = chatBot;
+
+            GetBotInfo();
+        }
+
+        private void GetBotInfo()
+        {
+            var chatBotInfo = _chatPersistance.ChatUsers.Find(_chatBot.ChatUserId);
+
+            if (chatBotInfo == null)
+            {
+                _chatBot.Name = "Bot without name";
+            }
+            else
+            {
+                _chatBot.Name = chatBotInfo.FullName;
+                _chatBot.ProfilePic = chatBotInfo.ProfilePic;
+            }
         }
 
         private async Task BroadCastMessage(string fullName, string profilePic, DateTime date, string message)
@@ -37,6 +54,19 @@ namespace Jobsity.CodeChallenge.WebApp.Services
             var currentUser = await _chatPersistance.ChatUsers.FirstAsync(x => x.UserName == Context.User.Identity.Name);
             var response = _chatBot.Read($"/sayhi={currentUser.FullName}");
 
+            var botPost = new ChatPost
+            {
+                ChatUserId = _chatBot.ChatUserId,
+                PublishedOn = DateTime.Now,
+                Message = response.ResultText
+            };
+
+            // Add post to the unit of work
+            await _chatPersistance.ChatPosts.AddAsync(botPost);
+            // Persist post message
+            await _chatPersistance.SaveChangesAsync();
+
+            // Broadcast welcome message to all users in room
             await BroadCastMessage(_chatBot.Name, _chatBot.ProfilePic, DateTime.Now, response.ResultText);
         }
 
@@ -61,20 +91,40 @@ namespace Jobsity.CodeChallenge.WebApp.Services
                 Message = message
             };
 
-            await _chatPersistance.ChatPosts.AddAsync(cm);
-            await _chatPersistance.SaveChangesAsync();
+            // Save the message unless it's a stock command
+
+            if (!message.ToLower().StartsWith("/stock="))
+            {
+                // Add post to the unit of work
+                await _chatPersistance.ChatPosts.AddAsync(cm);
+            }
 
             // Broadcast the new message to all people in chat room
-            await BroadCastMessage(cm.ChatUser.FullName, cm.ChatUser.ProfilePic, cm.PublishedOn, cm.Message);
+            await BroadCastMessage(currentUser.FullName, currentUser.ProfilePic, cm.PublishedOn, cm.Message);
 
             // Let the bot read the message
             var response = _chatBot.Read(message);
 
-            // Broadcast bot response to all users
+            // If the bot has a response for the message
             if (!string.IsNullOrEmpty(response.ResultText))
             {
+                // Save bot message in database
+                var botPost = new ChatPost
+                {
+                    ChatUserId = _chatBot.ChatUserId,
+                    PublishedOn = DateTime.Now,
+                    Message = response.ResultText
+                };
+
+                // Add post to the unit of work
+                await _chatPersistance.ChatPosts.AddAsync(botPost);                
+
+                // Broadcast to all users in the room
                 await BroadCastMessage(_chatBot.Name, _chatBot.ProfilePic, DateTime.Now, response.ResultText);
             }
+
+            // Persist post messages
+            await _chatPersistance.SaveChangesAsync();
         }
     }
 }

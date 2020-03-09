@@ -8,13 +8,13 @@ namespace Jobsity.CodeChallenge.Bot.Models
     {        
         private StockService _stockService;
 
-        public string Name { get; private set; }
-        public string ProfilePic { get; private set; }
+        public string ChatUserId { get; private set; }
+        public string Name { get; set; }
+        public string ProfilePic { get; set; }
 
-        public ChatBot(string name, string profilePic, string stockServiceEndpoint)
+        public ChatBot(string id, string stockServiceEndpoint)
         {
-            Name = name;
-            ProfilePic = profilePic;
+            ChatUserId = id;
             _stockService = new StockService(stockServiceEndpoint);
         }
 
