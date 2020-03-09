@@ -51,7 +51,9 @@ namespace Jobsity.CodeChallenge.WebApp
                 Port = Convert.ToInt32(databaseUri.Port),
                 Database = databaseUri.LocalPath.TrimStart('/'),
                 Username = userInfo[0],
-                Password = userInfo[1]
+                Password = userInfo[1],
+                SslMode = SslMode.Require,
+                TrustServerCertificate = true
             };
 
             services.AddDbContext<ChatPersistance>(o => o.UseNpgsql(builder.ConnectionString));
