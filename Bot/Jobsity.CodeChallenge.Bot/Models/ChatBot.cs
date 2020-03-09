@@ -5,13 +5,16 @@ using System.Linq;
 namespace Jobsity.CodeChallenge.Bot.Models
 {
     public class ChatBot
-    {
-        private readonly string _name;
+    {        
         private StockService _stockService;
 
-        public ChatBot(string name, string stockServiceEndpoint)
+        public string Name { get; private set; }
+        public string ProfilePic { get; private set; }
+
+        public ChatBot(string name, string profilePic, string stockServiceEndpoint)
         {
-            _name = name;
+            Name = name;
+            ProfilePic = profilePic;
             _stockService = new StockService(stockServiceEndpoint);
         }
 
@@ -46,7 +49,7 @@ namespace Jobsity.CodeChallenge.Bot.Models
             switch (response.Command)
             {
                 case BotCommand.SayHi:
-                    response.ResultText = $"Hello {request.Parameter}, this is {_name} and welcome to our financial chat room. Feel free to chat with any of our users or type /help if you need my assistance 😁.";
+                    response.ResultText = $"Hello {request.Parameter}, this is {Name} and welcome to our financial chat room. Feel free to chat with any of our users or type /help if you need my assistance 😁.";
                     break;
 
                 case BotCommand.Help:

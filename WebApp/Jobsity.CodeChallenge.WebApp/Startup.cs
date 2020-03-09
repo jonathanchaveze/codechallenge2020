@@ -1,3 +1,4 @@
+using Jobsity.CodeChallenge.Bot.Models;
 using Jobsity.CodeChallenge.WebApp.Models;
 using Jobsity.CodeChallenge.WebApp.Services;
 using Microsoft.AspNetCore.Builder;
@@ -98,6 +99,25 @@ namespace Jobsity.CodeChallenge.WebApp
             });
 
             #endregion
+
+            #region SignalR Configuration
+
+            services.AddSignalR();
+
+            #endregion
+
+            #region Bot Configuration
+
+            var botFullName = Configuration["ChatBot:FullName"];
+            var botProfilePic = Configuration["ChatBot:ProfilePic"];
+            var stockServiceEndpoint = Configuration["ChatBot:StockServiceEndpoint"];
+
+            services.AddSingleton<ChatBot, ChatBot>(o =>
+            {
+                return new ChatBot(botFullName, botProfilePic, stockServiceEndpoint);
+            });
+
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -123,6 +143,7 @@ namespace Jobsity.CodeChallenge.WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }

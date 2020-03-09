@@ -1,8 +1,61 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<ChatPost>
+
+@{
+    ViewData["Title"] = "Chat Room";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (User.Identity.IsAuthenticated)
+{
+    <h1 class="my-4">Chat Room</h1>
+
+    <div class="overflow-auto" style="max-height: 590px;" id="room">
+        <ul class="list-unstyled" id="messagesList">
+            @foreach (var cp in Model)
+            {
+                <li class="media my-4">
+                    <img src="@cp.ChatUser.ProfilePic?s=50" class="mr-3 rounded-circle"
+                         alt="Profile picture for @cp.ChatUser.FullName">
+                    <div class="media-body">
+                        <h6 class="mt-0 mb-1">@cp.ChatUser.FullName <small> - Posted on: @cp.PublishedOn.ToString("MM/dd/yy hh:mm tt")</small></h6>
+                        @cp.Message
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <hr>
+    <form id="formMessage" class="my-2">
+
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-grow-1  bd-highlight">
+
+                <input type="text" id="message" class="form-control" placeholder="Type a message">
+                <div class="alert alert-danger my-2" role="alert" id="error" style="display: none;"></div>
+            </div>
+            <div class="p-2 bd-highlight"><button id="sendButton" class="btn btn-primary">Send message</button></div>
+        </div>
+    </form>
+    @section Scripts {
+        <script>
+            $(function () {
+                $("#room").scrollTop($("#room")[0].scrollHeight);
+            });
+        </script>
+        <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+        <script src="~/js/chat.js"></script>
+    }
+}
+else
+{
+    <div class="jumbotron">
+        <h1 class="display-4">Hello!</h1>
+        <p class="lead">Welcome to our financial chat room</p>
+        <hr class="my-4">
+        <p>
+            <strong>Do you want to participate in the chat room?</strong> You must <a asp-controller="account"
+                                                                                      asp-action="login">sign in</a> first.
+            If you don't have an account, you can <a asp-controller="account" asp-action="register">create one</a> for free.
+        </p>
+    </div>
+}

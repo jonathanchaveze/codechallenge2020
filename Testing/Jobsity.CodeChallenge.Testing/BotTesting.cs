@@ -8,11 +8,12 @@ namespace Jobsity.CodeChallenge.Testing
     {
         private readonly string _stockEndpoint = "https://stooq.com/q/l/?f=sd2t2ohlcv&h&e=csv";
         private readonly string _botName = "Misti";
+        private readonly string _profilePic = string.Empty;
         private ChatBot _bot;
 
         public BotTesting()
         {
-            _bot = new ChatBot(_botName, _stockEndpoint);
+            _bot = new ChatBot(_botName, _profilePic, _stockEndpoint);
         }
 
         [TestMethod]
